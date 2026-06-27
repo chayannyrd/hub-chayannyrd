@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>chay.dev — hub</title>
+<meta name="theme-color" content="#0B0F14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="chay.dev">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230B0F14'/%3E%3Ctext x='14' y='42' font-family='monospace' font-size='28' fill='%23A78BFA'%3E%3E_%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230B0F14'/%3E%3Ctext x='14' y='42' font-family='monospace' font-size='28' fill='%23A78BFA'%3E%3E_%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0F14;
+    --panel:#121922;
+    --hairline:#212a33;
+    --fog:#E7EDF2;
+    --slate:#7E8B99;
+    --violet:#A78BFA;
+    --green:#3ECF8E;
+    --muted-dot:#475569;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--fog);
+    font-family:'Inter', sans-serif;
+    display:flex;
+    justify-content:center;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  main{
+    width:100%;
+    max-width:480px;
+    padding:32px 0 48px;
+  }
+
+  header{
+    padding:0 20px 24px;
+  }
+
+  .prompt{
+    font-family:'JetBrains Mono', monospace;
+    font-size:15px;
+    color:var(--violet);
+    letter-spacing:0.02em;
+  }
+
+  .cursor{
+    animation:blink 1.1s steps(1) infinite;
+  }
+
+  .meta-row{
+    margin-top:6px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--slate);
+  }
+
+  .meta-row span{ color:var(--slate); }
+
+  h1{
+    margin:16px 0 0;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:22px;
+    letter-spacing:-0.01em;
+  }
+
+  .sub{
+    margin:4px 0 0;
+    font-size:13px;
+    color:var(--slate);
+  }
+
+  .list{
+    border-top:1px solid var(--hairline);
+  }
+
+  .row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding:18px 20px;
+    border-bottom:1px solid var(--hairline);
+    text-decoration:none;
+    color:inherit;
+    transition:background-color 0.15s ease;
+  }
+
+  .row:hover, .row:focus-visible{
+    background:var(--panel);
+    outline:none;
+  }
+
+  .row:focus-visible .idx{
+    color:var(--violet);
+  }
+
+  .row-left{
+    display:flex;
+    gap:14px;
+    min-width:0;
+  }
+
+  .idx{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--slate);
+    padding-top:2px;
+    flex-shrink:0;
+  }
+
+  .row-text{ min-width:0; }
+
+  .title{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:16.5px;
+    color:var(--fog);
+  }
+
+  .tagline{
+    margin-top:3px;
+    font-size:13px;
+    color:var(--slate);
+    line-height:1.4;
+  }
+
+  .status{
+    margin-top:7px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    color:var(--slate);
+  }
+
+  .dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--violet);
+    flex-shrink:0;
+  }
+
+  .dot.pulse{
+    box-shadow:0 0 0 0 rgba(62,207,142,0.6);
+    animation:pulse 1.8s infinite;
+  }
+
+  .arrow{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--violet);
+    font-size:16px;
+    transition:transform 0.15s ease;
+    flex-shrink:0;
+  }
+
+  .row:hover .arrow, .row:focus-visible .arrow{
+    transform:translateX(3px);
+  }
+
+  footer{
+    padding:22px 20px 0;
+    text-align:center;
+  }
+
+  footer p{
+    margin:0;
+    font-size:12px;
+    color:var(--slate);
+  }
+
+  footer p.tip{
+    margin-top:6px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    color:#5b6773;
+  }
+
+  @keyframes blink{
+    0%, 49%{ opacity:1; }
+    50%, 100%{ opacity:0; }
+  }
+
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(62,207,142,0.55); }
+    70%{ box-shadow:0 0 0 6px rgba(62,207,142,0); }
+    100%{ box-shadow:0 0 0 0 rgba(62,207,142,0); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .cursor, .dot.pulse{ animation:none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="prompt">~/chayannyrd<span class="cursor" aria-hidden="true">_</span></div>
+    <h1>hub de sistemas</h1>
+    <p class="sub">tudo que está no ar, em um lugar só</p>
+    <div class="meta-row"><span id="weekday">---</span> · <span id="clock">--:--</span> · Brazil</div>
+  </header>
+
+  <nav class="list">
+    <a class="row" href="https://chayannyrd.github.io/gerador-planilhas/" aria-label="Gerador de Planilhas — Flysmart, ferramentas de planilha e PDF">
+      <div class="row-left">
+        <span class="idx" aria-hidden="true">01</span>
+        <div class="row-text">
+          <div class="title">Gerador de Planilhas</div>
+          <div class="tagline">Flysmart · planilhas automáticas e fusão de PDF</div>
+          <div class="status"><span class="dot" aria-hidden="true"></span>online</div>
+        </div>
+      </div>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+
+    <a class="row" href="https://post-generator-ashy.vercel.app/" aria-label="Gerador de Postagem para o canal de filmes e séries">
+      <div class="row-left">
+        <span class="idx" aria-hidden="true">02</span>
+        <div class="row-text">
+          <div class="title">Gerador de Postagem</div>
+          <div class="tagline">Monta o post do canal Filmes &amp; Séries em segundos</div>
+          <div class="status"><span class="dot" aria-hidden="true"></span>online</div>
+        </div>
+      </div>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+
+    <a class="row" href="https://cardapio-sushi-house.vercel.app/" aria-label="Cardápio digital do Sushi House">
+      <div class="row-left">
+        <span class="idx" aria-hidden="true">03</span>
+        <div class="row-text">
+          <div class="title">Sushi House</div>
+          <div class="tagline">Cardápio digital com pedido direto pro WhatsApp</div>
+          <div class="status"><span class="dot" id="sushi-dot" aria-hidden="true"></span><span id="sushi-status">checando horário…</span></div>
+        </div>
+      </div>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+
+    <a class="row" href="https://portfolio-beige-seven-15.vercel.app/" aria-label="Portfólio chay.dev">
+      <div class="row-left">
+        <span class="idx" aria-hidden="true">04</span>
+        <div class="row-text">
+          <div class="title">Portfólio</div>
+          <div class="tagline">chay.dev · projetos, stack e contato</div>
+          <div class="status"><span class="dot" aria-hidden="true"></span>online</div>
+        </div>
+      </div>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </nav>
+
+  <footer>
+    <p>feito por chayannyrd · 2026</p>
+    <p class="tip">dica: toque em "compartilhar" → "adicionar à tela de início" pra abrir como app</p>
+  </footer>
+</main>
+
+<script>
+  function pad(n){ return n.toString().padStart(2, '0'); }
+
+  function updateClock(){
+    var now = new Date();
+    // Bahia é UTC-3 fixo (Brasil não usa mais horário de verão desde 2019)
+    var local = new Date(now.getTime() - 3 * 60 * 60 * 1000);
+    var day = local.getUTCDay(); // 0=dom ... 6=sáb
+    var hour = local.getUTCHours();
+    var minute = local.getUTCMinutes();
+
+    var dayNames = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+    document.getElementById('weekday').textContent = dayNames[day];
+    document.getElementById('clock').textContent = pad(hour) + ':' + pad(minute);
+
+    var minutesNow = hour * 60 + minute;
+    var isSushiDay = [0, 4, 5].indexOf(day) !== -1; // dom, qui, sex
+    var isOpen = isSushiDay && minutesNow >= 18 * 60 && minutesNow < 23 * 60;
+
+    var dot = document.getElementById('sushi-dot');
+    var label = document.getElementById('sushi-status');
+
+    if (isOpen) {
+      dot.style.background = 'var(--green)';
+      dot.classList.add('pulse');
+      label.textContent = 'aberto agora';
+    } else {
+      dot.style.background = 'var(--muted-dot)';
+      dot.classList.remove('pulse');
+      label.textContent = 'fechado · qui, sex e dom · 18h–23h';
+    }
+  }
+
+  updateClock();
+  setInterval(updateClock, 30000);
+</script>
+</body>
+</html>
